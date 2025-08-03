@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ticket
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: JWT_SECRET
+        value: supersecret123
+      - key: HUBSPOT_TOKEN
+        value: pat-na1-14aebf68-401c-4432-b902-661ec15cbc6c
