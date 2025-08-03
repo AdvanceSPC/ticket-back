@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import express from "express";
-import { authenticate } from "./src/middlewares/auth.middlewares";
-import authRoutes from "./src/routes/auth.routes";
-import ticketRoutes from "./src/routes/ticket.routes";
+import { authenticate } from "./middlewares/auth.middlewares";
+import authRoutes from "./routes/auth.routes";
+import ticketRoutes from "./routes/ticket.routes";
 
 dotenv.config();
 const app = express();
