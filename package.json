@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "ts-node-dev": "^2.0.0",
@@ -23,6 +24,7 @@
     "buffer-from": "^1.1.2",
     "chokidar": "^3.6.0",
     "concat-map": "^0.0.1",
+    "cors": "^2.8.5",
     "create-require": "^1.1.1",
     "diff": "^4.0.2",
     "dotenv": "^17.2.1",
@@ -72,10 +74,10 @@
     "yn": "^3.1.1"
   },
   "scripts": {
-    "start":"ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
     "build": "ts"
   },
-  "type":"commonjs",
+  "type": "commonjs",
   "keywords": [],
   "author": "",
   "license": "ISC",
