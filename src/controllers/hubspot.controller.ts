@@ -41,14 +41,14 @@ export const update = async (req: Request, res: Response) => {
     }
 };
 
-const mapStatus = (hsStage: string): "pendiente" | "en-progreso" | "cerrado" => {
+const mapStatus = (hsStage: string): "pendiente" | "Esperando respuesta Cliente" | "Working N1" => {
     switch (hsStage) {
         case "1132922631":
             return "pendiente";
         case "1132922632":
-            return "en-progreso";
+            return "Esperando respuesta Cliente";
         case "1132922633":
-            return "cerrado";
+            return "Working N1";
         default:
             return "pendiente";
     }
