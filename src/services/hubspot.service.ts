@@ -20,8 +20,22 @@ export const createTicket = async (title: string, content: string) => {
 };
 
 export const getTickets = async () => {
-    const res = await axios.get(HUBSPOT_API, { headers: HEADERS });
-    return res.data;
+    const res = await axios.get(HUBSPOT_API, { 
+        headers: HEADERS,
+        params: {
+            limit: 100,
+            properties: [
+                "subject",
+                "content",
+                "hs_pipeline",
+                "hs_pipeline_stage",
+                "hs_ticket_priority",
+                "createdate",
+                "lastmodifieddate"
+            ]
+        }
+     });
+    return res.data.results || [];
 };
 
 export const updateTicketStatus = async (id: string, newStatus: string) => {

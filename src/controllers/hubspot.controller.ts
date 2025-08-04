@@ -14,6 +14,16 @@ export const create = async (req: Request, res: Response) => {
 export const list = async (_: Request, res: Response) => {
     try {
         const tickets = await hubspot.getTickets();
+
+        const mapped = tickets.map((t: any) => ({
+            id: t.id,
+            title: t.properties.subject,
+            description: t.properties.content,
+            status: mapStatus(t.properties.hs_pipeline_stage),
+            priority: mapPriority(t.properties.hs_ticket_priority),
+            createdAt: t.properties.createdate,
+            updatedAt: t.properties.lastmodifieddate,
+        }))
         res.json(tickets);
     } catch {
         res.status(500).json({ error: "Failed to retrieve tickets" });
@@ -28,5 +38,28 @@ export const update = async (req: Request, res: Response) => {
         res.json(result);
     } catch {
         res.status(500).json({ error: "Failed to update ticket" });
+    }
+};
+
+const mapStatus = (hsStage: string): "pendiente" | "en-progreso" | "cerrado" => {
+    switch (hsStage) {
+        case "1132922631":
+            return "pendiente";
+        case "1132922632":
+            return "en-progreso";
+        case "1132922633":
+            return "cerrado";
+        default:
+            return "pendiente";
+    }
+};
+
+const mapPriority = (p: string): "baja" | "media" | "alta" | "critica" => {
+    switch (p) {
+        case "LOW": return "baja";
+        case "MEDIUM": return "media";
+        case "HIGH": return "alta";
+        case "URGENT": return "critica";
+        default: return "media";
     }
 };
