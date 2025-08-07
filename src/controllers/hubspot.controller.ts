@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as hubspot from "../services/hubspot.service";
 
+
 const mapStatus = (hsStage: string): "pendiente" | "Esperando respuesta Cliente" | "Working N1" => {
     switch (hsStage) {
         case "1132922631":
@@ -49,8 +50,8 @@ export const list = async (_: Request, res: Response) => {
             priority: mapPriority(t.properties.hs_ticket_priority),
             createdAt: t.properties.createdate,
             updatedAt: t.properties.lastmodifieddate,
-            category: 'general',
-            createdBy: 'system',
+            //category: 'general',
+            //createdBy: 'system',
         }));
 
         console.log(`Tickets mapeados: ${mapped.length}`);
