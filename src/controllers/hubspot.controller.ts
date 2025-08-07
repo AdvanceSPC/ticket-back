@@ -36,31 +36,37 @@ export const create = async (req: Request, res: Response) => {
     }
 };
 
-export const list = async (_: Request, res: Response) => {
-    try {
-        console.log('Obteniendo tickets de HubSpot...');
-        const tickets = await hubspot.getTickets();
-        console.log(`Se obtuvieron ${tickets.length} tickets`);
+export const getAll = async (req: Request, res: Response) => {
+  try {
+    console.log("Obteniendo tickets de HubSpot...");
+    const raw = await hubspot.getTickets();
 
-        const mapped = tickets.map((t: any) => ({
-            id: t.id,
-            title: t.properties.subject || 'Sin título',
-            description: t.properties.content || 'Sin descripción',
-            status: mapStatus(t.properties.hs_pipeline_stage),
-            priority: mapPriority(t.properties.hs_ticket_priority),
-            createdAt: t.properties.createdate,
-            updatedAt: t.properties.lastmodifieddate,
-            //category: 'general',
-            //createdBy: 'system',
-        }));
+    const filtered = raw.results.filter((t: any) =>
+      t.properties.hs_pipeline === "775401867"
+    );
 
-        console.log(`Tickets mapeados: ${mapped.length}`);
-        res.json(mapped);
-    } catch (error) {
-        console.error('Error obteniendo tickets:', error);
-        res.status(500).json({ error: "Failed to retrieve tickets" });
-    }
+    console.log("Tickets del pipeline correcto:", filtered.length);
+
+    const tickets = filtered.map((t: any) => ({
+      id: t.id,
+      title: t.properties.subject,
+      description: t.properties.content,
+      status: mapStatus(t.properties.hs_pipeline_stage),
+      priority: mapPriority(t.properties.hs_ticket_priority),
+      createdAt: t.properties.createdate,
+      updatedAt: t.properties.hs_lastmodifieddate,
+      category: "general",
+      createdBy: "system",
+    }));
+
+    console.log("Tickets mapeados:", tickets.length);
+    res.json({ results: tickets });
+  } catch (err) {
+    console.error("Error al obtener tickets desde HubSpot", err);
+    res.status(500).json({ error: "Error al obtener tickets" });
+  }
 };
+
 
 export const update = async (req: Request, res: Response) => {
     const { id } = req.params;
